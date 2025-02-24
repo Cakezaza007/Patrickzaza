@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Goal Tracker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .hidden {
+            display: none;
+        }
+        .result {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page1" class="container">
+        <h2>ระบุน้ำหนักและ BMI</h2>
+        <label>ส่วนสูง (ซม.): <input type="number" id="height" value=""></label><br>
+        <label>น้ำหนัก (กก.): <input type="number" id="weight" value=""></label><br>
+        <button onclick="calculateBMI()">ถัดไป</button>
+        <p id="bmiResult" class="result"></p>
+    </div>
+
+    <div id="page2" class="container hidden">
+        <h2>คุณมีไลฟ์สไตล์แบบใด</h2>
+        <select id="lifestyle">
+            <option>ออกกำลังกายหนักทุกวัน</option>
+            <option>ออกกำลังกายหนัก 6-7 ครั้งต่อสัปดาห์</option>
+            <option>ออกกำลังกายปานกลาง 4-5 ครั้งต่อสัปดาห์</option>
+            <option>ออกกำลังกายเบาๆ 1-2 ครั้งต่อสัปดาห์</option>
+            <option>นั่งทำงานเกือบทั้งวัน 8-10 ชั่วโมงต่อวันโดยไม่ขยับร่างกาย</option>
+        </select><br>
+        <button onclick="nextPage(3)">ถัดไป</button>
+    </div>
+
+    <div id="page3" class="container hidden">
+        <h2>ระบุเป้าหมายของคุณ</h2>
+        <select id="goal">
+            <option>ฉันต้องการรักษาน้ำหนักเท่าเดิม</option>
+            <option>ฉันต้องการเพิ่มน้ำหนัก</option>
+            <option>ฉันต้องการลดน้ำหนัก</option>
+            <option>ฉันต้องการเพิ่มกล้ามเนื้อ</option>
+        </select><br>
+        <button onclick="nextPage(4)">ถัดไป</button>
+    </div>
+
+    <div id="page4" class="container hidden">
+        <h2>ตั้งเป้าหมาย</h2>
+        <label>น้ำหนักเป้าหมาย (กก.): <input type="number" id="targetWeight" value=""></label><br>
+        <button onclick="calculateGoal()">ถัดไป</button>
+    </div>
+
+    <div id="page5" class="container hidden">
+        <h2>นี่คือเป้าหมายของคุณ</h2>
+        <p id="goalResult" class="result"></p>
+        <p id="calories" class="result"></p>
+        <p id="carbs" class="result"></p>
+    </div>
+
+    <script>
+        function calculateBMI() {
+            let height = document.getElementById('height').value / 100;
+            let weight = document.getElementById('weight').value;
+            let bmi = (weight / (height * height)).toFixed(2);
+            document.getElementById('bmiResult').innerText = BMI ของคุณคือ ${bmi};
+            nextPage(2);
+        }
+
+        function calculateGoal() {
+            let targetWeight = document.getElementById('targetWeight').value;
+            let calories = targetWeight * 30;
+            let carbs = (calories * 0.5) / 4;
+            document.getElementById('goalResult').innerText = น้ำหนักเป้าหมายของคุณคือ ${targetWeight} กก.;
+            document.getElementById('calories').innerText = ปริมาณแคลอรี่ที่เหมาะสม: ${calories} kcal;
+            document.getElementById('carbs').innerText = ปริมาณคาร์โบไฮเดรตที่เหมาะสม: ${carbs.toFixed(2)} กรัม;
+            nextPage(5);
+        }
+
+        function nextPage(pageNumber) {
+            let pages = document.querySelectorAll('.container');
+            pages.forEach(page => page.classList.add('hidden'));
+            document.getElementById(page${pageNumber}).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html
